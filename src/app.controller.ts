@@ -10,11 +10,16 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
+	@Get()
+	getHello() {
+		return this.appService.getHello();
+	}
+
 	@Post('generateToken')
 	@ApiOperation({
 		summary: 'Generar token',
 	})
-	getHello(@Body() genTokenDto: GenerateTokenDto) {
+	getToken(@Body() genTokenDto: GenerateTokenDto) {
 		const role = agoraToken.RtcRole.PUBLISHER;
 		const expirationTimeInSeconds = 3600;
 		const currentTimestamp = Math.floor(Date.now() / 1000);
