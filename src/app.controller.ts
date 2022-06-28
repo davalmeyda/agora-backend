@@ -3,12 +3,17 @@ import { AppService } from './app.service';
 import * as agoraToken from 'agora-access-token';
 import { customResponse } from './common/reponse';
 import { GenerateTokenDto } from './dtos/generateToken.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags('Token')
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Post('generateToken')
+	@ApiOperation({
+		summary: 'Generar token',
+	})
 	getHello(@Body() genTokenDto: GenerateTokenDto) {
 		const role = agoraToken.RtcRole.PUBLISHER;
 		const expirationTimeInSeconds = 3600;
@@ -23,6 +28,6 @@ export class AppController {
 			role,
 			privilegeExpiredTs,
 		);
-		return customResponse('token', Buffer.from(token).toString('base64'));
+		return customResponse('token generate in base64', Buffer.from(token).toString('base64'));
 	}
 }

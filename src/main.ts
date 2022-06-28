@@ -1,5 +1,6 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -25,6 +26,15 @@ async function bootstrap() {
 
 	// HABILITAMOS LOS CORS PARA PODER VISUALIZAR DESDE OTRO DOMINIO
 	app.enableCors();
+
+	/** Genera una documentacion general */
+	const config = new DocumentBuilder()
+		.setTitle('Agora Token Generate NestJS')
+		.setDescription('Generador de token para proyecto de Agora')
+		.setVersion('1.0.0')
+		.build();
+	const configGeneral = SwaggerModule.createDocument(app, config);
+	SwaggerModule.setup('docs', app, configGeneral);
 
 	// INTERSEPTOR PARA MANEJAR LOS ERRORES
 	// app.useGlobalInterceptors(new ErroresInterceptor());
